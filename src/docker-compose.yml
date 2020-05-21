@@ -29,7 +29,7 @@ services:
       - /sessions
   golang:
     build:
-      context: ..
+      context: .
       dockerfile: .docker/Dockerfile
     volumes:
       - ..:/go/src
