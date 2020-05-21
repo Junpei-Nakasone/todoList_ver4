@@ -1,0 +1,4 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+INSERT INTO todo VALUES
+( `1`, `cleaning`);

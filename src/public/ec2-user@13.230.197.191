@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>TodoList_ver2</title>
+</head>
+<body>
+    <div id="top">
+        <h1>TodoList_ver2</h1>
+        <h2>Add New Todo</h2>
+        <form class="add-form" v-on:submit.prevent="doAdd">
+            <input type="text" v-model="todo">
+            <button type="submit">Add</button>
+        </form>
+        <button @click="showTodo">Show Todos</button>
+        <ul>
+            <li v-for="todo in todos">
+                {{ todo.name }}
+                <button @click="deleteTodo(todo.id)">Delete</button>
+            </li>
+            
+        </ul>
+    </div>
+    <script>
+    new Vue({
+        el: "#top",
+
+        data: {
+            todos: [],
+            todo: ""
+        },
+
+        methods: {
+            showTodo: function() {
+                axios.get('/todos').then(res => {
+                    this.todos = res.data.todos || [];
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            doAdd: function() {
+                
+                axios.post('/addTodo', {
+                    name: this.todo
+                });
+            },
+            deleteTodo(id) {
+                axios.post('/deleteTodo', {
+                    id: id
+                })
+            }
+        }
+    })
+    </script>
+</body>
+</html>
